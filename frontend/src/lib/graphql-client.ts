@@ -1,6 +1,6 @@
 import { getToken, logout } from './auth';
 
-const GRAPHQL_ENDPOINT = 'http://localhost:3000/graphql';
+const GRAPHQL_ENDPOINT = process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:3000/graphql';
 
 export async function graphqlClient<T>(query: string, variables?: any): Promise<T> {
   const token = getToken();

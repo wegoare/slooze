@@ -1,0 +1,78 @@
+
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String          @id @default(uuid())
+  email           String          @unique
+  password        String
+  role            Role
+  country         Country
+  orders          Order[]
+  paymentMethods  PaymentMethod[]
+}
+
+model Restaurant {
+  id       String   @id @default(uuid())
+  name     String
+  country  Country
+  menu     MenuItem[]
+}
+
+model MenuItem {
+  id           String      @id @default(uuid())
+  name         String
+  price        Float
+  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  orderItems   OrderItem[]
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  status    OrderStatus
+  total     Float
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId String
+  quantity   Int
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  MEMBER
+}
+
+enum Country {
+  INDIA
+  AMERICA
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model PaymentMethod {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  provider  String
+  last4     String
+}

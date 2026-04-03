@@ -1,0 +1,72 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MenuItem {
+  id: String!
+  name: String!
+  price: Float!
+  restaurantId: String!
+}
+
+type Order {
+  id: String!
+  status: String!
+  total: Float!
+}
+
+type PaymentMethod {
+  id: String!
+  provider: String!
+  last4: String!
+}
+
+type Query {
+  hello: String!
+  menuItems(restaurantId: String!): [MenuItem!]!
+  myOrders: [Order!]!
+  myPaymentMethods: [PaymentMethod!]!
+}
+
+type Mutation {
+  signup(input: SignupInput!): String!
+  login(input: LoginInput!): String!
+  addMenuItem(input: AddMenuItemInput!): MenuItem!
+  createOrder(input: CreateOrderInput!): Order!
+  checkoutOrder(orderId: String!): Order!
+  cancelOrder(orderId: String!): Order!
+  addPaymentMethod(input: AddPaymentMethodInput!): PaymentMethod!
+  deletePaymentMethod(id: String!): PaymentMethod!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  role: String!
+  country: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input AddMenuItemInput {
+  name: String!
+  price: Float!
+  restaurantId: String!
+}
+
+input CreateOrderInput {
+  items: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  menuItemId: String!
+  quantity: Int!
+}
+
+input AddPaymentMethodInput {
+  provider: String!
+  last4: String!
+}
